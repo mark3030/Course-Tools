@@ -1,0 +1,406 @@
+@primary-color: #4D76C1; // 全局主色
+@font-size-base: 14px; // 主字号
+@heading-color: #4A4A4A; // 标题色
+@text-color-base: #FFFFFF; //大部分字体颜色
+@text-color: #303133; // 主文本色
+@text-color-secondary: #909399; // 次文本色
+@text-color-extra: #C0C4CC; //辅助字体
+@text-color-smit: #4A4A4A; //字体变色-前背景色
+@text-color-miss: #FE5B6A; //字体变色-后背景色
+@text-color-correct: #06AE0F; //字体变色-正确朗读
+@icon-color: #888888; //图标颜色
+@icon-color-star: #FFBC00; //图标颜色2
+@icon-color-extra: rgba(0; 0; 0; 0.39); //图标颜色3
+@btn-color: #3a517b; //按钮颜色1
+@btn-color-extra: #adb5c6; //按钮颜色2
+@bg-color: #F5F5F5; // 组件/浮层 颜色
+@border-color-base: #D9D9D9; // 边框色
+@border-color: #E0DEDE; // 边框色2
+@border-color-secondary: #979797; // 边框色3，辅助边框色
+@box-shadow-base: 0px 0px 12px 2px rgb(0 0 0 / 10%); // 浮层阴影
+
+
+.themes-default-color {
+  .box-shadow-evaluation {
+    box-shadow: @box-shadow-base;
+  }
+
+  .box-shadow-none {
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0) !important;
+  }
+
+  .box-shadow-record {
+    box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.14);
+  }
+
+  .box-shaow-question {
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+  }
+
+  .b1F {
+    border: 1px solid @border-color-secondary;
+  }
+
+  .b1F-ed {
+    border: 1px solid @bg-color;
+  }
+
+  .b1F-primary {
+    border: 1px solid @primary-color;
+  }
+
+  .b1F-record {
+    border: 1px solid @btn-color;
+  }
+
+  .b2F-record {
+    border: 2px solid @btn-color;
+  }
+
+  .bdt1F {
+    border-top: 1px solid @border-color;
+  }
+
+  .bdb1F {
+    border-bottom: 1px solid @border-color;
+  }
+
+  .bdb2F-primary {
+    border-bottom: 2px solid @primary-color;
+  }
+
+  .bdb1F-white-opacity19 {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.19);
+  }
+
+  .b1F-not {
+    border: 1px solid transparent !important;
+  }
+
+  .b2w {
+    border-width: 2px !important;
+  }
+
+  .b1F-white {
+    border: 1px dashed #ffffff;
+  }
+
+  .background {
+    background: @primary-color;
+  }
+
+  .background-color {
+    background-color: @primary-color;
+  }
+
+  .backg-icon {
+    background: @icon-color-extra;
+  }
+
+  .backg-dot {
+    background: #CCCCCC;
+    ;
+  }
+
+  .backg-white {
+    background: @text-color-base;
+  }
+
+  .backg-block {
+    background: rgba(0, 0, 0, 1);
+  }
+
+  .backg-record {
+    background: @btn-color  !important;
+  }
+
+  .backg-yinpin {
+    background: @btn-color-extra  !important;
+  }
+
+  .backg-modal {
+    background: @bg-color;
+  }
+
+  .backg-test {
+    background: rgba(0, 0, 0, 0);
+  }
+
+  .backg-tools {
+    background: rgba(0, 0, 0, 0.79);
+  }
+
+
+  .text-primary {
+    color: @primary-color;
+  }
+
+  .text-color {
+    color: @text-color;
+  }
+
+  .text-color-white {
+    color: @text-color-base  !important;
+  }
+
+  .text-color-heading {
+    color: @heading-color;
+  }
+
+  .text-color-secondary {
+    color: @text-color-secondary;
+  }
+
+  .text-color-extra {
+    color: @text-color-extra;
+  }
+
+  .text-color-red {
+    color: @text-color-miss ;
+  }
+
+  .text-color-record {
+    color: @btn-color;
+  }
+
+  .text-color-yinpin {
+    color: @btn-color-extra;
+  }
+
+  .icon-color {
+    color: @icon-color;
+  }
+
+  .icon-color-extra {
+    color: @icon-color-extra;
+  }
+
+  .icon-color-star {
+    color: @icon-color-star;
+  }
+
+
+  .ant-btn.ant-btn-primary {
+    border-color: @primary-color  !important;
+  }
+
+  .ant-btn.ant-btn-background-ghost {
+    border-color: @primary-color  !important;
+    color: @primary-color  !important;
+    background: transparent !important;
+  }
+
+  .ant-btn-primary:hover,
+  .ant-btn-primary:focus,
+  .ant-btn-primary:active {
+    border-color: @primary-color  !important;
+    background: @primary-color  !important;
+  }
+
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: @primary-color  !important;
+    border-color: @primary-color  !important;
+  }
+
+  .ant-modal-content {
+    background: @bg-color  !important;
+  }
+
+  .ant-slider-track {
+    background-color: @primary-color  !important;
+  }
+
+  .ant-slider-handle {
+    border: 2px solid @text-color-base  !important;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
+  }
+
+  .ant-slider:hover .ant-slider-handle:not(.ant-tooltip-open) {
+    border-color: @text-color-base  !important;
+  }
+
+  .ant-modal-title {
+    font-size: @font-size-base  !important;
+    color: @text-color  !important;
+  }
+
+  .ant-modal-close {
+    color: @icon-color  !important;
+  }
+
+  .ant-btn.ant-btn-primary {
+    border-color: @primary-color  !important;
+    background: @primary-color  !important;
+  }
+
+  .ant-btn.ant-btn-background-ghost {
+    border-color: @primary-color  !important;
+    color: @primary-color  !important;
+    background: transparent !important;
+  }
+
+  .ant-btn-primary:hover,
+  .ant-btn-primary:focus,
+  .ant-btn-primary:active {
+    border-color: @primary-color;
+    background: @primary-color;
+  }
+
+  .ant-pagination-item {
+    background-color: transparent !important;
+    border: 0px solid @border-color-base  !important;
+
+    button {
+      color: #90999C !important;
+    }
+  }
+
+  .ant-pagination-item.ant-pagination-item-active {
+    button {
+      background-color: @primary-color  !important;
+      border: 0px solid @border-color-base  !important;
+      color: @text-color-base  !important;
+    }
+  }
+
+  .style-normal .ant-input {
+    color: @text-color-base  !important;
+  }
+
+  .ant-input-group-addon {
+    background-color: @text-color-base  !important;
+  }
+
+  .ant-input-group-addon {
+    color: @text-color-base  !important;
+    background-color: transparent !important;
+    border: 0px solid @border-color-base  !important;
+  }
+
+  .ant-tree {
+    color: #93acd9 !important;
+    background: transparent !important;
+    font-weight: bold;
+  }
+
+  .ant-tree-treenode:hover {
+    .ant-tree-switcher {
+      color: @text-color-base  !important;
+    }
+
+    .ant-tree-node-content-wrapper {
+      background: transparent !important;
+      color: @text-color-base  !important;
+    }
+  }
+
+  .ant-tree-node-content-wrapper:hover {
+    background: transparent !important;
+    color: @text-color-base  !important;
+  }
+
+  .ant-tree-node-content-wrapper.ant-tree-node-selected {
+    background: transparent !important;
+    color: @text-color-base  !important;
+  }
+
+  .ant-tree-switcher_close,
+  .ant-tree-switcher_open {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    transition: transform 0.3s linear;
+  }
+
+  .ant-tree-treenode-selected {
+    color: @text-color-base  !important;
+  }
+
+  .ant-tree-switcher.ant-tree-switcher_open {
+    transform: rotate(90deg);
+    transform-origin: center center;
+  }
+
+  .ant-menu-item a {
+    color: #9B9B9B !important;
+  }
+
+  .ant-menu-item-selected a {
+    color: @text-color  !important;
+  }
+
+  .ant-menu-item-selected:after {
+    background: @primary-color  !important;
+  }
+
+  .ant-menu-dark {
+    background: @bg-color  !important;
+  }
+
+  .ant-layout-header-dt {
+    background: @bg-color  !important;
+  }
+
+  .ant-layout-content-dt {
+    background: @text-color-base  !important;
+  }
+
+  .ant-input-search {
+    border: 1px solid #C8C8C8 !important;
+  }
+
+  .ant-input-search i {
+    color: #C8C8C8 !important;
+  }
+
+  .site-button-ghost-wrapper {
+    background: #000000 !important;
+  }
+
+  .icon-record .yinpin-record {
+    background: @btn-color;
+  }
+
+  .recordering .yinpin-record {
+    border-right-color: @btn-color;
+  }
+
+  .hr {
+    background: @btn-color-extra;
+  }
+
+  .smil-text {
+    background: @text-color-smit -webkit-linear-gradient(left, @text-color-miss , @text-color-miss) no-repeat 0 0;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-size: 0 100%;
+  }
+
+  .smil-text>span {
+    background: @text-color-smit -webkit-linear-gradient(left, @text-color-miss, @text-color-miss) no-repeat 0 0;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-size: 0 100%;
+  }
+
+  .smil-text .text-color-record-sure {
+    background: @text-color-correct -webkit-linear-gradient(left, @text-color-miss, @text-color-miss) no-repeat 0 0;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-size: 0 100%;
+  }
+
+  .smil-text .text-color-record-miss {
+    background: @text-color-smit -webkit-linear-gradient(left, @text-color-miss, @text-color-miss) no-repeat 0 0;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-size: 0 100%;
+  }
+
+  .smil-text .text-color-record-fause {
+    background: @text-color-miss -webkit-linear-gradient(left, @text-color-miss, @text-color-miss) no-repeat 0 0;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-size: 0 100%;
+  }
+}

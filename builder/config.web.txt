@@ -1,0 +1,4 @@
+;!@Install@!UTF-8!
+RunProgram="index.html -y"
+ExtractTitle="正在打开工具"
+;!@InstallEnd@!

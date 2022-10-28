@@ -1,0 +1,4 @@
+;!@Install@!UTF-8!
+RunProgram="Course-NeciBook.exe -y"
+ExtractTitle="正在打开工具"
+;!@InstallEnd@!
