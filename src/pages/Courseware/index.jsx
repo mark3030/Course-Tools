@@ -1,3 +1,4 @@
+import { formatFileSize } from '@common/utils/formatFileSize';
 import OSS from 'ali-oss';
 import { Button, List } from 'antd';
 import React, { useEffect, useState } from "react";
@@ -17,7 +18,7 @@ const CDN_HOST = "https://public.data.dev.dt-pf.com";
 
 export default () => {
     const [list, setList] = useState([]);
-    const prefix = "courseware-2022-10-19/";
+    const prefix = "office365/data/";
 
     useEffect(() => {
         const client = new OSS({
@@ -34,7 +35,7 @@ export default () => {
                     const { name, url } = item;
                     const extIndex = name.lastIndexOf('.');
                     const ext = name.substring(extIndex);
-                    if(['.ppt', '.pptx'].includes(ext)) {
+                    if(['.ppt', '.pptx', '.doc', '.docx'].includes(ext)) {
                         list.push(item);
                     }
                 });
@@ -51,9 +52,13 @@ export default () => {
             pagination={true}
             renderItem={item => 
                 <List.Item key={item.etag}>
-                    <List.Item.Meta title={item.name.replace(prefix, "")}/>
+                    <List.Item.Meta
+                        title={item.name.replace(prefix, "")}
+                        description={formatFileSize(item.size)}
+                    />
+                    <Button href={`https://ow365.cn/?i=30516&n=5&furl=${item.url}`} target="_blank">OW365打开</Button>
                     <Button href={`http://office.necibook.com:8884/?pct=1&officeType=zjyz&n=1&furl=${item.url}`} target="_blank">中教云打开</Button>
-                    <Button href={`https://view.officeapps.live.com/op/view.aspx?src=${item.url}`} target="_blank">免费微软方案打开</Button>
+                    <Button href={`https://view.officeapps.live.com/op/view.aspx?src=${item.url}`} target="_blank">微软打开</Button>
                 </List.Item>
             }
         />
