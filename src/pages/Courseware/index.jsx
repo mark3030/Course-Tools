@@ -32,11 +32,15 @@ export default () => {
             .then(result => {
                 const list = [];
                 result.objects.forEach(item => {
-                    const { name, url } = item;
+                    const { name, size, url } = item;
+                    const pact = url.split('://');
+                    const ssl = pact[0] === "http" ? 0 : 1;
                     const extIndex = name.lastIndexOf('.');
                     const ext = name.substring(extIndex);
-                    if(['.ppt', '.pptx', '.doc', '.docx'].includes(ext)) {
-                        list.push(item);
+                    if(['.ppt', '.pptx'].includes(ext)) {
+                        list.push({ name, size, url, n: 5, ssl });
+                    } else if(['.doc', '.docx'].includes(ext)) {
+                        list.push({ name, size, url, n: 3, ssl });
                     }
                 });
                 return list;
@@ -56,8 +60,8 @@ export default () => {
                         title={item.name.replace(prefix, "")}
                         description={formatFileSize(item.size)}
                     />
-                    <Button href={`https://ow365.cn/?i=30516&n=5&furl=${item.url}`} target="_blank">OW365打开</Button>
-                    <Button href={`http://office.necibook.com:8884/?pct=1&officeType=zjyz&n=1&furl=${item.url}`} target="_blank">中教云打开</Button>
+                    <Button href={`https://ow365.cn/?i=30516&n=${item.n}&ssl=${item.ssl}&furl=${item.url}`} target="_blank">OW365打开</Button>
+                    <Button href={`http://office.necibook.com:8884/?pct=1&officeType=zjyz&n=${item.n}&ssl=${item.ssl}&furl=${item.url}`} target="_blank">中教云打开</Button>
                     <Button href={`https://view.officeapps.live.com/op/view.aspx?src=${item.url}`} target="_blank">微软打开</Button>
                 </List.Item>
             }
