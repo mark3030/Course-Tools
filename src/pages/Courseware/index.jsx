@@ -60,7 +60,8 @@ export default () => {
                         title={item.name.replace(prefix, "")}
                         description={formatFileSize(item.size)}
                     />
-                    <Button href={`https://ow365.cn/?i=30516&n=${item.n}&ssl=${item.ssl}&furl=${item.url}`} target="_blank">OW365打开</Button>
+                    <Button href={`https://itest.ow365.cn/?i=30516&n=${item.n}&ssl=${item.ssl}&furl=${item.url}`} target="_blank">OW365测试环境</Button>
+                    <Button href={`https://ow365.cn/?i=30516&n=${item.n}&ssl=${item.ssl}&furl=${item.url}`} target="_blank">OW365正式环境</Button>
                     <Button href={`http://office.necibook.com:8884/?pct=1&officeType=zjyz&n=${item.n}&ssl=${item.ssl}&furl=${item.url}`} target="_blank">中教云打开</Button>
                     <Button href={`https://view.officeapps.live.com/op/view.aspx?src=${item.url}`} target="_blank">微软打开</Button>
                 </List.Item>
