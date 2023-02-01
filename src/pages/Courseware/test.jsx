@@ -107,8 +107,6 @@ export default () => {
                                 <Radio.Button value="test">测试环境</Radio.Button>
                                 <Radio.Button value="online">正式环境</Radio.Button>
                             </Radio.Group>
-
-
                         </Space>
                     </Col>
                 </Row>
@@ -123,6 +121,7 @@ export default () => {
                     <Space>
                         {/* <Button type="primary" href={`https://itest.ow365.cn/?i=${mode.i}&n=${item.n}&ssl=${item.ssl}&furl=${item.url}`} target="_blank">OW365测试环境</Button> */}
                         <Button type='primary' href={`https://ow365.cn/?i=${mode.i}&n=${item.n}&ssl=${item.ssl}&furl=${item.url}`} target="_blank">OW365打开</Button>
+                        <Button type='primary' href={`https://ow365.cn/?i=${mode.i}&n=${item.n}&ssl=${item.ssl}&info=6&furl=${item.url}`} target="_blank">OW365截图</Button>
                         {/* <Button type="primary" href={`http://office.necibook.com:8884/?pct=1&officeType=zjyz&n=${item.n}&ssl=${item.ssl}&furl=${item.url}`} target="_blank">中教云打开</Button> */}
                         <Button type='dashed' href={`https://view.officeapps.live.com/op/view.aspx?src=${item.url}`} target="_blank">微软打开</Button>
                         <Popconfirm
@@ -133,7 +132,6 @@ export default () => {
                         >
                             <Button type='danger'>删除</Button>
                         </Popconfirm>
-
                     </Space>
                 </List.Item>
             }
