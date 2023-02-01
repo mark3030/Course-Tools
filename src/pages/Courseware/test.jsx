@@ -2,7 +2,7 @@ import { LoadingOutlined, UploadOutlined } from '@ant-design/icons';
 import { useUpload } from '@common/hooks';
 import { formatFileSize } from '@common/utils/formatFileSize';
 import OSS from 'ali-oss';
-import { Button, Col, List, Popconfirm, Row, Space, Upload } from 'antd';
+import { Button, Col, List, Popconfirm, Radio, Row, Space, Upload } from 'antd';
 import React, { useEffect, useState } from "react";
 
 const platfroms = {
@@ -30,7 +30,7 @@ const platfroms = {
         accessKeyId: "LTAI4G5qD9cKKtdPApKiMpHE",
         accessKeySecret: "TVSaRu9xiqYe4o0BUoLUdP4MPoztYo",
 
-        prefix: "platform-file/office365/data/test/",
+        prefix: "platform-file/office365/data/",
         i: 30555
     }
 };
@@ -40,7 +40,7 @@ export default () => {
     const [list, setList] = useState([]);
     const [mode, setMode] = useState({
         type: "online",
-        prefix: "platform-file/office365/data/test/",
+        prefix: "platform-file/office365/data/",
         i: 30555
     });
 
@@ -99,15 +99,16 @@ export default () => {
                 <Row>
                     <Col span={8}>课件列表</Col>
                     <Col span={8} offset={8} style={{ textAlign: 'right' }}>
-                        {/* <Radio.Group onChange={e => handleModeChange(e.target.value)} value={mode.type} style={{ marginBottom: 8 }}>
-                        <Radio.Button value="test">测试环境</Radio.Button>
-                        <Radio.Button value="online">正式环境</Radio.Button>
-                    </Radio.Group> */}
                         <Space>
                             <Upload {...uploadProps}>
                                 <Button icon={spinning ? <LoadingOutlined /> : <UploadOutlined />} disabled={spinning}>上传课件</Button>
                             </Upload>
-                            {/* <Button type="primary" onClick={() => window.location.reload()}>刷新</Button>5 */}
+                            <Radio.Group onChange={e => handleModeChange(e.target.value)} value={mode.type} style={{ marginBottom: 8 }}>
+                                <Radio.Button value="test">测试环境</Radio.Button>
+                                <Radio.Button value="online">正式环境</Radio.Button>
+                            </Radio.Group>
+
+
                         </Space>
                     </Col>
                 </Row>
