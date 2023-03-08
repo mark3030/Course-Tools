@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import classNames from 'classnames';
-import { useParams, useHistory } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { useRedirect } from '@common/hooks';
 import ImageCarousel from "@components/Carousel";
-
-import '../index.less'
+import classNames from 'classnames';
+import React, { useEffect, useState } from 'react';
+import { useParams } from "react-router-dom";
 
 const ModuleItem = ({ list }) => {
-  const { t } = useTranslation();
   const { code, origin } = useParams();
-  const history = useHistory();
+  const { gotoPage } = useRedirect();
   const [activeIdx, setActiveIdx] = useState(null)
 
   useEffect(() => {
@@ -29,8 +26,8 @@ const ModuleItem = ({ list }) => {
             style={{ background: item.background }}
             onMouseEnter={() => setActiveIdx(idex)}
             onClick={() => {
-              if (!item?.chapter) history.push(`/epub/${code}/${origin}`)
-              else history.push(`/catalog/${code}/${origin}/${item.id}`)
+              if (!item?.chapter) gotoPage(`/epub/${code}/${origin}`)
+              else gotoPage(`/catalog/${code}/${origin}/${item.id}`)
             }}
           >
             <div className={`${idex === activeIdx ? 'module_item_active' : 'module_item'}`}>

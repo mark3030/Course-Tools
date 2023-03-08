@@ -94,7 +94,6 @@ export default () => {
     return (
         <List
             dataSource={list}
-            style={{ margin: 50 }}
             header={
                 <Row>
                     <Col span={8}>课件列表</Col>

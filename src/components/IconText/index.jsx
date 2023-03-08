@@ -1,7 +1,7 @@
-import { Progress, Tooltip } from 'antd'
-import classNames from 'classnames'
-import { useEffect, useState } from 'react'
-import './index.less'
+import { Progress, Tooltip } from 'antd';
+import classNames from 'classnames';
+import { useEffect, useState } from 'react';
+import './index.less';
 
 
 export const IconAndText = ({

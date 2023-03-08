@@ -1,13 +1,11 @@
+import { useRedirect } from '@common/hooks';
 import { volumeDispatch } from '@common/utils/dispatchEvent';
 import { exitFullscreen, isFullscreen, launchFullscreen } from '@common/utils/fullScreen';
 import { defaultVolume, updateVolume } from '@common/utils/globalConstant';
 import { TooltipItem } from '@components/IconText';
 import { Slider } from 'antd';
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import './index.less';
-
-
 
 function closewin() {
   if (navigator.userAgent.indexOf("Firefox") !== -1 || navigator.userAgent.indexOf("Chrome") !== -1) {
@@ -19,13 +17,10 @@ function closewin() {
   window.close();
 }
 
-const LeftSite = ({
-  type,
-  code,
-  origin
-}) => {
+const LeftSite = ({ type, code, origin }) => {
 
-  const history = useHistory()
+const { backHome } = useRedirect();
+
   const [volumePrecent, setVolumePrecent] = useState(defaultVolume)
   const [volumeShow, setVolumeShow] = useState(false)
 
@@ -57,7 +52,7 @@ const LeftSite = ({
         <TooltipItem
           text="返回"
           iconType="icon-cebianlan-fanhui"
-          onClick={() => { history.goBack() }}
+          onClick={() => backHome()}
         />
       </div>)}
 

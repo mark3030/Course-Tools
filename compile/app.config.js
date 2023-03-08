@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
     host: "localhost",
-    port: 7702,
+    port: 7704,
     rootPath: (...args) => path.join(__dirname, '..', ...args),
     sourceDir: "src",
     distDir: "dist",
