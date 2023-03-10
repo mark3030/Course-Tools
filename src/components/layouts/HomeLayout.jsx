@@ -46,7 +46,7 @@ const HomeLayout = ({ theme = "dark", defaultSelectedKeys = [] }) => {
                     />
             </Sider>
             <Layout className="site-layout-content">
-                <Content>
+                <Content style={{ padding: 12 }}>
                     <Outlet />
                 </Content>
 

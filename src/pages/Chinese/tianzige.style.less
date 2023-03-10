@@ -1,0 +1,62 @@
+html{
+  font-size: 100px;
+}  
+
+#tianzige_thumb_container {
+  // display: none;
+  margin: 0.05rem;
+  width: 3.98rem;
+  height: 3.98rem;
+}
+
+/* Stroke */
+.stroke-box {
+  position: relative;
+  background: #fff;
+  clear: both;
+  height: 0;
+  padding-bottom: 100%;
+  margin: 0 auto;
+  border: 0.06rem solid #02BDF2;
+}
+
+.stroke-box:after,
+.stroke-box:before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.stroke-box:after {
+  height: 100%;
+  width: 0.03rem;
+  background-image: linear-gradient(to bottom, #02BDF2 0%, #02BDF2 45.4%, transparent 50%);
+  background-size: 100% 0.22rem;
+  background-repeat: repeat-y;
+}
+
+.stroke-box:before {
+  height: 0.03rem;
+  width: 100%;
+  background-image: linear-gradient(to right, #02BDF2 0%, #02BDF2 45.4%, transparent 50%);
+  background-size: 0.22rem 100%;
+  background-repeat: repeat-x;
+}
+
+.stroke-box .stroke {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+}
+
+.storke-path {
+  fill: #333333;
+  stroke: #333333;
+  stroke-width: 10;
+}

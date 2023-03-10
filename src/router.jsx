@@ -3,6 +3,7 @@ import React from "react";
 import { Navigate, useRoutes } from 'react-router-dom';
 import { Loadable } from './common/utils/loadable';
 
+const HomeLayout = Loadable('components/layouts/HomeLayout');
 const CoursewarePage = Loadable('pages/Courseware');
 const CoursewareTestPage = Loadable('pages/Courseware/test');
 const ModulePage = Loadable('pages/Module');

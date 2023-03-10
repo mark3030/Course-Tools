@@ -1,9 +1,10 @@
-import { LoadingOutlined, UploadOutlined } from '@ant-design/icons';
-import { useUpload } from '@common/hooks';
+import { LoadingOutlined, QuestionCircleOutlined, UploadOutlined } from '@ant-design/icons';
+import { useHanzi, usePackage, useUpload } from '@common/hooks';
 import { formatFileSize } from '@common/utils/formatFileSize';
 import OSS from 'ali-oss';
-import { Button, Card, Col, Input, List, message, Row, Space, Upload } from 'antd';
+import { Alert, Button, Card, Col, Input, List, Modal, Row, Space, Spin, Tooltip, Upload } from 'antd';
 import React, { useEffect, useState } from "react";
+import './tianzige.style.less';
 
 const platfroms = {
     dev: {
@@ -15,50 +16,94 @@ const platfroms = {
     },
 };
 
+const HELPER = {
+    upload: (
+        <div>
+            <p>
+                <h2>文件上传：</h2>
+                上传音频文件，用于自动生成动画。
+                音频文件可以重复上传，程序会自动根据音频生成动画文件和数据
+            </p>
+            <p>
+                <h2>命名规范：</h2>
+                [汉字]_[拼音]_[点读类型].mp3
+            </p>
+            <p>
+                <h2>范例：</h2>
+                <ul>
+                    <li>地_di_spell.mp3 - 汉字【地】的"di"发音的拼读音频 </li>
+                    <li>地_di_whole.mp3 - 汉字【地】的"di"发音的整读音频 </li>
+                    <li>地_de_spell.mp3 - 汉字【地】的"de"发音的拼读音频 </li>
+                    <li>地_de_whole.mp3 - 汉字【地】的"de"发音的整读音频 </li>
+                </ul>
+            </p>
+        </div>
+    ),
+    generate: (
+        <div>
+            <p>
+                <h2>生成动画：</h2>
+                根据已经上传好的音频文件生成动画
+            </p>
+            <p>
+                <h2>下载动画包：</h2>
+                将确认无误的动画打包成 *.an.zip 的压缩包并下载
+            </p>
+        </div>
+    ),
+    search: (
+        <div>
+            <p>
+                <h2>搜索动画</h2>
+                输入汉字作为关键字，点击搜索
+            </p>
+            <p>
+                鉴于程序性能问题并不会把所有动画全部列出来，因此需要通过搜索来找到需要的动画。
+            </p>
+        </div>
+    )
+};
+
+const resultFilter = (objects = []) => {
+    const list = {};
+    objects.forEach(item => {
+        const { etag, name, lastModified, size = 0 } = item;
+        const keys = name.split('/');
+        if (keys.length >= 4) {
+            const [ character, file ] = keys.slice(2);
+            const [ fileName, ext ] = file.split('.');
+
+            if (!list[character]) {
+                list[character] = {
+                    character,
+                    lastModified,
+                    size
+                };
+            }
+
+            if (ext === 'mp3') {
+                // 一_yī_spell.mp3
+                const [ character_, pinyin, type ] = fileName.split('_');
+                list[character][type] = name;
+                list[character].pinyin = pinyin;
+            } else if (ext === 'json') {
+                // 一.json
+                list[character].json = name;
+                list[character].size = size;
+                list[character].etag = etag
+            }
+        }
+    });
+    return Object.values(list);
+};
+
 const Chinese = ({ }) => {
     const { prefix, ...options } = platfroms.dev;
-    const [spinning, setLoading] = useState(false);
+    const [initialization, setInitialization] = useState(false);
+    const [uploading, setUploading] = useState(false);
     const [list, setList] = useState([]);
 
-    const { uploadProps, fileName } = useUpload({
-        maxSize: 200,
-        type: "audio/mp3",
-        setLoading,
-        ossData: platfroms.dev
-    });
-
-
-    const resultFilter = (objects = []) => {
-        const list = {};
-        objects.forEach(item => {
-            const { etag, name, lastModified, size, url } = item;
-            const keys = name.split('/');
-            if (keys.length >= 4) {
-                const key = keys[2];
-                const [file, ext] = name.substring(name.lastIndexOf('/')).split('.');
-
-                if (!list[key]) list[key] = { name: key };
-                if (ext === 'mp3') {
-                    const type = file.split('_').pop();
-                    list[key][type] = name;
-                } else if (ext === 'json') {
-                    list[key].json = name;
-                    list[key].size = size;
-                    list[key].etag = etag
-                    list[key].url = url;
-                    list[key].lastModified = lastModified
-                }
-            }
-        });
-        return Object.values(list);
-    };
-
-    useEffect(() => {
-        new OSS(options)
-            .list({ prefix })
-            .then(result => resultFilter(result.objects))
-            .then(setList);
-    }, []);
+    useEffect(() => onSearch(), []);
 
     const onSearch = keyword => {
         new OSS(options)
@@ -67,65 +112,125 @@ const Chinese = ({ }) => {
             .then(setList);
     };
 
+    const { generateAnimate } = useHanzi({
+        base: 'templates',
+        graphicsLib: "makemeahanzi/graphics.dev.txt",
+        ossData: platfroms.dev,
+        completed: setInitialization
+    });
+    const { uploadRequest, uploadProps } = useUpload({
+        maxSize: 200,
+        type: "audio/mp3,audio/mpeg",
+        ossData: platfroms.dev,
+        generateFolder: generateAnimate,
+        startd: setUploading,
+        completed: onSearch
+    });
+    const { graphicsData, genPackage } = usePackage({
+        thumbContainer: '#tianzige_thumb_container',
+        ossData: platfroms.dev,
+    });
+
     return (
-        <List
-            dataSource={list}
-            style={{ padding: 12 }}
-            grid={{
-                gutter: 16,
-                xs: 1,
-                sm: 2,
-                md: 4,
-                lg: 4,
-                xl: 6,
-                xxl: 3,
-            }}
-            header={
-                <Row>
-                    <Col span={8}>
-                        <Space>
-                            <div>田字格列表</div>
-                            <Input.Search
-                                placeholder="输入汉字以搜索"
-                                allowClear
-                                onSearch={onSearch}
-                                enterButton
-                                style={{
-                                    width: 300
-                                }}
-                            />
-                        </Space>
-                    </Col>
-                    <Col span={8} offset={8} style={{ textAlign: 'right' }}>
-                        <Space>
-                            <Upload {...uploadProps}>
-                                <Button icon={spinning ? <LoadingOutlined /> : <UploadOutlined />} disabled={spinning}>上传田字格音频资源</Button>
-                            </Upload>
-                        </Space>
-                    </Col>
-                </Row>
-            }
-            pagination={{ pageSize: 3 }}
-            renderItem={({ json, spell, whole, etag, name, lastModified, size, url }) => (
-                <List.Item key={etag}>
-                    <Card
-                        title={`${name} : ${formatFileSize(size)}`}
-                        extra={<Button type='primary' onClick={() => message.info('正在开发中...')}>下载【{name}】动画包</Button>}
-                        style={{ boxShadow: '0 0 5px rgba(0, 0, 0, .5)' }}
-                    >
-                        <iframe
-                            style={{
-                                width: '100%',
-                                height: 700,
-                                borderStyle: 'none'
-                            }}
-                            title={json}
-                            src={`https://frontend.dev.dt-pf.com/platform-an/index.html#${name || '%E5%8F%A3'}`}
-                        />
-                    </Card>
-                </List.Item>
-            )}
-        />
+        <>
+            {initialization && <Alert type="warning" showIcon icon={<LoadingOutlined />} message="重要说明：" description="程序正在初始化，请稍后..."/>}
+            <List
+                dataSource={list}
+                grid={{
+                    gutter: 16,
+                    xs: 1,
+                    sm: 2,
+                    md: 4,
+                    lg: 4,
+                    xl: 6,
+                    xxl: 3,
+                }}
+                header={
+                    <Row>
+                        <Col span={8}>
+                            <Space>
+                                <div>田字格列表</div>
+                                <Input.Search
+                                    placeholder="输入汉字以搜索"
+                                    allowClear
+                                    onSearch={onSearch}
+                                    enterButton
+                                    style={{ width: 300 }}
+                                />
+                                <Tooltip title={HELPER.search} style={{ width: 300 }}>
+                                    <QuestionCircleOutlined />
+                                </Tooltip>
+                            </Space>
+                        </Col>
+                        <Col span={8} offset={8} style={{ textAlign: 'right' }}>
+                            <Space>
+                                <Tooltip title={HELPER.upload} style={{ width: 300 }}>
+                                    <QuestionCircleOutlined />
+                                </Tooltip>
+                                <Upload {...uploadProps}>
+                                    <Button type='primary' icon={uploading ? <LoadingOutlined /> : <UploadOutlined />} disabled={uploading || initialization}>上传田字格音频资源</Button>
+                                </Upload>
+                            </Space>
+                        </Col>
+                    </Row>
+                }
+                pagination={{ pageSize: 3 }}
+                renderItem={item => {
+                    const { json = null, etag, character, pinyin, size } = item;
+                    return (
+                        <List.Item key={etag}>
+                            <Card
+                                title={`${character}(${pinyin}) : ${formatFileSize(size)}`}
+                                extra={
+                                    <Space>
+                                        <Tooltip title={HELPER.generate} style={{ width: 300 }}>
+                                            <QuestionCircleOutlined />
+                                        </Tooltip>
+                                        <Button type='primary' onClick={() => uploadRequest(item)} disabled={initialization}>{json ? '重新生成' : '生成动画'}</Button>
+                                        {json && <Button type='default' onClick={() => genPackage(item, true)} disabled={initialization}>下载动画包</Button>}
+                                    </Space>
+                                    
+                                }
+                                style={{ boxShadow: '0 0 5px rgba(0, 0, 0, .5)' }}
+                            >
+                                {json ? <iframe
+                                    style={{
+                                        width: '100%',
+                                        height: 700,
+                                        borderStyle: 'none'
+                                    }}
+                                    title={json}
+                                    src={`https://frontend.dev.dt-pf.com/platform-an/index.html#${character || '%E5%8F%A3'}`}
+                                /> : <Button type="primary" onClick={() => uploadRequest(item)} disabled={initialization} block style={{ height: 180 }}>点击生成动画</Button>}
+                            </Card>
+                        </List.Item>
+                    )
+                }}
+            />
+            <Modal
+                open={!!graphicsData.strokes}
+                closable={false}
+                footer={null}
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center'
+                }}
+            >
+                <Spin spinning={true} size="large" tip="正在生成动画包，请稍后...">
+                    <div id="tianzige_thumb_container">
+                        <div className="stroke-box">
+                            <div className="stroke">
+                                <svg width="3.98rem" height="3.98rem">
+                                    <g transform="translate(15, 330) scale(0.35, -0.35)">
+                                        {graphicsData.strokes && graphicsData.strokes.map(d => <path d={d} className="storke-path" />)}
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </Spin>
+            </Modal>
+        </>
     );
 };
 
