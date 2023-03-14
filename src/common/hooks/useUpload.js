@@ -2,8 +2,8 @@ import OSS from 'ali-oss';
 import { message } from 'antd';
 import path from "path-webpack";
 
-const useUpload = (options = { maxSize: 2, type: "image/jpeg,image/jpg,image/png,image/gif,image/bmp", showUploadList: false, ossData: {}, generateFolder: null, startd: null, completed: null }) => {
-    const { maxSize = 2, type = "image/jpeg,image/jpg,image/png,image/gif,image/bmp", showUploadList = false, ossData = {}, generateFolder = null, startd = null, completed = null } = options;
+const useUpload = (options = { multiple: false, maxSize: 2, type: "image/jpeg,image/jpg,image/png,image/gif,image/bmp", showUploadList: false, ossData: {}, generateFolder: null, startd: null, completed: null }) => {
+    const { multiple = false, maxSize = 2, type = "image/jpeg,image/jpg,image/png,image/gif,image/bmp", showUploadList = false, ossData = {}, generateFolder = null, startd = null, completed = null } = options;
     const { i, prefix, ...ossOptions } = ossData;
     const types = type.split(",");
     
@@ -82,6 +82,7 @@ const useUpload = (options = { maxSize: 2, type: "image/jpeg,image/jpg,image/png
     return {
         uploadRequest,
         uploadProps: {
+            multiple,
             accept: type,
             beforeUpload,
             showUploadList

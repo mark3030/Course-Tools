@@ -9,21 +9,33 @@
   "scripts": {
     "start": "npm run start:web",
     "start:web": "webpack serve -c compile/webpack.config.dev.js",
-    "start:dev": "concurrently \"cross-env BROWSER=none npm run start:web\" \"wait-on http://localhost:7703 && cross-env NODE_ENV=development npm run run:ele\"",
+    "start:dev": "concurrently \"cross-env BROWSER=none npm run start:web\" \"wait-on http://localhost:7704 && cross-env NODE_ENV=development npm run run:ele\"",
     "start:pre": "cross-env NODE_ENV=pre npm run run:ele",
     "run:ele": "electron --trace-warnings .",
     "pack:mac": "electron-packager . --platform=darwin --arch=x64 --icon=./public/assets/icons/favicon.icns --asar --out ./build --app-version=1.0.0 --electron-version 14.0.0 --ignore=\"(node_modules|src|build|Makefile|releases|public|test|coverage|back|webpack.config.*.js|.gitignore|package-lock.json|README.md|app-server.js|serverWorker.js|.gitlab-ci.yml|craco.config.js|zip.js)\" --overwrite",
     "pack:linux": "electron-packager . --platform=linux --arch=x64 --icon=./public/assets/icons/favicon.ico --asar --out ./build --app-version=1.0.0 --electron-version 14.0.0 --ignore=\"(node_modules|src|build|Makefile|releases|public|test|coverage|back|webpack.config.*.js|.gitignore|package-lock.json|README.md|app-server.js|serverWorker.js|.gitlab-ci.yml|craco.config.js|zip.js)\" --overwrite",
     "pack:win": "electron-packager . --platform=win32 --arch=x64 --icon=./public/assets/icons/favicon.ico --asar --out ./build --app-version=1.0.0 --electron-version 14.0.0 --ignore=\"(node_modules|src|build|Makefile|releases|public|test|coverage|back|webpack.config.*.js|.gitignore|package-lock.json|README.md|app-server.js|serverWorker.js|.gitlab-ci.yml|craco.config.js|zip.js)\" --overwrite",
-    "zip:linux": "cd build && node ../zip.js ../releases/1.0.0/Course-NeciBook-linux-x64-1.0.0.zip Course-NeciBook-linux-x64/",
-    "zip:mac": "cd build && node ../zip.js ../releases/1.0.0/Course-NeciBook-darwin-x64-1.0.0.zip Course-NeciBook-darwin-x64/",
-    "zip:win": "cd build && node ../zip.js ../releases/1.0.0/Course-NeciBook-win32-x64-1.0.0.zip Course-NeciBook-win32-x64/",
+    "zip:linux": "cd build && node ../zip.js ../releases/1.0.0/course-tools-linux-x64-1.0.0.zip course-tools-linux-x64/",
+    "zip:mac": "cd build && node ../zip.js ../releases/1.0.0/course-tools-darwin-x64-1.0.0.zip course-tools-darwin-x64/",
+    "zip:win": "cd build && node ../zip.js ../releases/1.0.0/course-tools-win32-x64-1.0.0.zip course-tools-win32-x64/",
     "build:dev": "cross-env NODE_ENV=development webpack --config compile/webpack.config.dev.js",
     "build:prod": "cross-env NODE_ENV=production webpack --config compile/webpack.config.prod.js",
     "build:mac": "cross-env NODE_ENV=production ELECTRON_MIRROR=http://npm.taobao.org/mirrors/electron/ npm run pack:mac",
     "build:win": "cross-env NODE_ENV=production ELECTRON_MIRROR=http://npm.taobao.org/mirrors/electron/ npm run pack:win",
     "build:linux": "cross-env NODE_ENV=production ELECTRON_MIRROR=http://npm.taobao.org/mirrors/electron/ npm run pack:linux",
     "build": "npm run build:mac && npm run zip:mac && rm -rf build"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
@@ -72,7 +84,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "ali-oss": "^6.17.1",
-    "antd": "^5.3.0",
+    "antd": "4.24.8",
     "axios": "^0.27.2",
     "blueimp-md5": "^2.19.0",
     "jszip": "^3.10.1",

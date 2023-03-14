@@ -28,8 +28,8 @@ const download = (blob, fileName = "cover", ext = ".png") => {
     link.remove();
 }
 
-const usePackage = (options = { base: 'templates/hanzi', thumbContainer: '#thumb_container', ossData: {}, setLoading: null }) => {
-    const { base = 'templates/hanzi', thumbContainer = '#thumb_container', ossData = {}, setLoading = null } = options;
+const usePackage = (options = { base: 'templates/hanzi', thumbContainer: '#thumb_container', ossData: {} }) => {
+    const { base = 'templates/hanzi', thumbContainer = '#thumb_container', ossData = {} } = options;
     const { prefix, ...ossOptions } = ossData;
     const [graphicsData, setGraphicsData] = useState({});
 
@@ -84,8 +84,8 @@ const usePackage = (options = { base: 'templates/hanzi', thumbContainer: '#thumb
             dpi: 120, // 图片清晰度问题
             allowTaint: true,
             useCORS: true, // 支持跨域打印图片
-            width: 399,
-            height: 411
+            // width: 398,
+            // height: 572
         };
         
         return new Promise((resolve, reject) => setTimeout(() => {
@@ -97,13 +97,13 @@ const usePackage = (options = { base: 'templates/hanzi', thumbContainer: '#thumb
                     data: blob
                 }));
             }).catch(reject)
-        }, 500));
+        }, 800))
+        // .then(file => download(file.data));
     };
 
     const genPackage = ({ json, spell, whole, character, pinyin }, isDownload) => {
-
         const jsZip = new JSZip();
-        jsZip.file("mimetype", PACKAGE_TEMPLATES.type, { compression: "STORE" });
+        // jsZip.file("mimetype", PACKAGE_TEMPLATES.type, { compression: "STORE" });
 
         const client = new OSS(ossOptions);
         const templatesPath = prefix.replace('audio', base);

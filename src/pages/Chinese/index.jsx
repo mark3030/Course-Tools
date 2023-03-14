@@ -1,10 +1,11 @@
-import { LoadingOutlined, QuestionCircleOutlined, UploadOutlined } from '@ant-design/icons';
+import Tianzige from '@/components/Tianzige';
+import { DownloadOutlined, LoadingOutlined, QuestionCircleOutlined, ThunderboltOutlined, UploadOutlined } from '@ant-design/icons';
 import { useHanzi, usePackage, useUpload } from '@common/hooks';
 import { formatFileSize } from '@common/utils/formatFileSize';
 import OSS from 'ali-oss';
-import { Alert, Button, Card, Col, Input, List, Modal, Row, Space, Spin, Tooltip, Upload } from 'antd';
+import { Alert, Button, Card, Col, Input, List, Modal, Row, Space, Tooltip, Upload } from 'antd';
 import React, { useEffect, useState } from "react";
-import './tianzige.style.less';
+import './index.page.less';
 
 const platfroms = {
     dev: {
@@ -21,8 +22,8 @@ const HELPER = {
         <div>
             <p>
                 <h2>文件上传：</h2>
-                上传音频文件，用于自动生成动画。
-                音频文件可以重复上传，程序会自动根据音频生成动画文件和数据
+                上传音频文件，支持重复上传，批量上传
+                <h3>特别注意：上传过程会自动生成动画文件和数据，上传后无需再次点击“生成动画”</h3>
             </p>
             <p>
                 <h2>命名规范：</h2>
@@ -119,6 +120,7 @@ const Chinese = ({ }) => {
         completed: setInitialization
     });
     const { uploadRequest, uploadProps } = useUpload({
+        multiple: true,
         maxSize: 200,
         type: "audio/mp3,audio/mpeg",
         ossData: platfroms.dev,
@@ -136,35 +138,28 @@ const Chinese = ({ }) => {
             {initialization && <Alert type="warning" showIcon icon={<LoadingOutlined />} message="重要说明：" description="程序正在初始化，请稍后..."/>}
             <List
                 dataSource={list}
-                grid={{
-                    gutter: 16,
-                    xs: 1,
-                    sm: 2,
-                    md: 4,
-                    lg: 4,
-                    xl: 6,
-                    xxl: 3,
-                }}
+                grid={{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 3, xl: 3, xxl: 3 }}
                 header={
-                    <Row>
-                        <Col span={8}>
+                    <Row
+                        gutter={[ 16, { xs: 8, sm: 16, md: 24, lg: 32 } ]}
+                        justify="space-between"
+                    >
+                        <Col xs={24} sm={12} md={16} lg={8} xl={8}>
                             <Space>
-                                <div>田字格列表</div>
                                 <Input.Search
                                     placeholder="输入汉字以搜索"
                                     allowClear
                                     onSearch={onSearch}
                                     enterButton
-                                    style={{ width: 300 }}
                                 />
                                 <Tooltip title={HELPER.search} style={{ width: 300 }}>
                                     <QuestionCircleOutlined />
                                 </Tooltip>
                             </Space>
                         </Col>
-                        <Col span={8} offset={8} style={{ textAlign: 'right' }}>
+                        <Col>
                             <Space>
-                                <Tooltip title={HELPER.upload} style={{ width: 300 }}>
+                                <Tooltip title={HELPER.upload} style={{ width: 500 }}>
                                     <QuestionCircleOutlined />
                                 </Tooltip>
                                 <Upload {...uploadProps}>
@@ -186,22 +181,18 @@ const Chinese = ({ }) => {
                                         <Tooltip title={HELPER.generate} style={{ width: 300 }}>
                                             <QuestionCircleOutlined />
                                         </Tooltip>
-                                        <Button type='primary' onClick={() => uploadRequest(item)} disabled={initialization}>{json ? '重新生成' : '生成动画'}</Button>
-                                        {json && <Button type='default' onClick={() => genPackage(item, true)} disabled={initialization}>下载动画包</Button>}
+                                        <Button type='primary' onClick={() => uploadRequest(item)} disabled={initialization} icon={<ThunderboltOutlined />}/>
+                                        <Button type='default' onClick={() => genPackage(item, true)} disabled={initialization} shape="circle" icon={<DownloadOutlined />}/>
                                     </Space>
                                     
                                 }
                                 style={{ boxShadow: '0 0 5px rgba(0, 0, 0, .5)' }}
                             >
-                                {json ? <iframe
-                                    style={{
-                                        width: '100%',
-                                        height: 700,
-                                        borderStyle: 'none'
-                                    }}
-                                    title={json}
-                                    src={`https://frontend.dev.dt-pf.com/platform-an/index.html#${character || '%E5%8F%A3'}`}
-                                /> : <Button type="primary" onClick={() => uploadRequest(item)} disabled={initialization} block style={{ height: 180 }}>点击生成动画</Button>}
+                                {
+                                    json
+                                    ? <iframe style={{ width: '100%', height: 700, borderStyle: 'none' }} title={json} src={`https://frontend.dev.dt-pf.com/platform-an/demo/index.html#${character || '%E5%8F%A3'}`}/>
+                                    : <Button type="primary" onClick={() => uploadRequest(item)} disabled={initialization} block style={{ height: 180 }}>点击生成动画</Button>
+                                }
                             </Card>
                         </List.Item>
                     )
@@ -216,19 +207,10 @@ const Chinese = ({ }) => {
                     justifyContent: 'center'
                 }}
             >
-                <Spin spinning={true} size="large" tip="正在生成动画包，请稍后...">
-                    <div id="tianzige_thumb_container">
-                        <div className="stroke-box">
-                            <div className="stroke">
-                                <svg width="3.98rem" height="3.98rem">
-                                    <g transform="translate(15, 330) scale(0.35, -0.35)">
-                                        {graphicsData.strokes && graphicsData.strokes.map(d => <path d={d} className="storke-path" />)}
-                                    </g>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </Spin>
+                <Tianzige
+                    spinning={true}
+                    {...graphicsData}
+                />
             </Modal>
         </>
     );
