@@ -1,7 +1,7 @@
 import { Spin } from 'antd';
 import './index.module.less';
 
-export default ({ pinyin = '', strokes = [], spinning = false, style = {} }) => {
+export default ({ pinyin = '', strokes = [], spinning = false }) => {
     return (
         <Spin spinning={spinning} size="large" tip="正在生成动画包，请稍后...">
             <div id="tianzige_thumb_container" className="container" style={style}>
