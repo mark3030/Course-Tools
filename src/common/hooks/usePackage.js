@@ -97,7 +97,7 @@ const usePackage = (options = { base: 'templates/hanzi', thumbContainer: '#thumb
                     data: blob
                 }));
             }).catch(reject)
-        }, 1500))
+        }, 800))
         // .then(file => download(file.data));
     };
 
