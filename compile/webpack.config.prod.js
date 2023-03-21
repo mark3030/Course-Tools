@@ -18,10 +18,6 @@ module.exports = webpackBase(sourceDir, distDir, staticsDir, {
       {
         from: rootPath(staticsDir, 'assets'),
         to: rootPath(distDir, 'assets')
-      },
-      {
-        from: rootPath(staticsDir, 'microclass'),
-        to: rootPath(distDir, 'microclass')
       }
     ])
   ],
