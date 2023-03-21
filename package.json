@@ -9,7 +9,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack serve -c compile/webpack.config.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config compile/webpack.config.prod.js",
-    "dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:7704 && cross-env NODE_ENV=development electron --trace-warnings .\"",
+    "dev": "concurrently \"cross-env BROWSER=none npm run start\" \"wait-on http://localhost:7704 && cross-env NODE_ENV=development electron --trace-warnings .\"",
     "pre": "cross-env NODE_ENV=pre electron --trace-warnings .",
 
     "pack:mac": "cross-env NODE_ENV=production ELECTRON_MIRROR=http://npm.taobao.org/mirrors/electron/ electron-packager . --platform=darwin --arch=x64 --icon=./public/assets/icons/favicon.icns --asar --out ./build --app-version=%npm_package_version% --electron-version 14.0.0 --ignore=\"(node_modules|src|build|Makefile|releases|public|test|coverage|back|webpack.config.*.js|.gitignore|package-lock.json|README.md|app-server.js|serverWorker.js|.gitlab-ci.yml|craco.config.js|zip.js)\" --overwrite",
@@ -20,8 +20,8 @@
     "zip:mac": "./bin/zip.js ./releases ./build darwin",
     "zip:win": "./bin/zip.js ./releases ./build win32",
 
-    "prerelease": "yarn build && yarn pack:mac",
-    "release": "yarn zip:mac",
+    "prerelease": "npm run build && npm run pack:mac",
+    "release": "npm run zip:mac",
     "postrelease": "rm -rf build"
   },
   "browserslist": {
